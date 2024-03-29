@@ -1,0 +1,115 @@
+<!-- <div class="chat-container">
+    <div class="chat-box">
+        <div class="chat-title">
+            <h1>Story board</h1>
+        </div>
+        <div class="chat-body" id="chatbody">
+            @for(item of chatArray;track item){
+            @if(item.class=="chat-bot"){
+            <div class="chat-bot">
+                <p><img src="../../assets/bot.png" class="bot-icon">{{item.message}}</p>
+                <input type="hidden" value="{{item.message}}" [(ngModel)]="botChatData">
+                @if(item.menu==true){
+                    <div class="services">
+                        <div class="card" >change name</div>
+                        <div class="card">chat with live customare care</div>
+                        <div class="card">see all menu</div>
+                        <div class="card">previous menu</div>
+                        <div class="card">sdfsd</div>
+                    </div>
+                }
+              
+            </div>
+            }
+            @else if(item.class=="chat-me"){
+            <div class="chat-me">
+                <div class="user">
+                    <input type="text" value="{{item.message}}" #data (click)="addUpdate(data.value)" (focus)="newData(data.value)" >
+                </div>
+                @if(isFocus){ <button class="btn" (click)="updateData(data,$index,this)">Update</button>
+            }
+               
+            </div>
+            }
+            }
+            @if(message>=botquery.length){
+                @for(answer of userResponse;track answer){
+                   <div class="answer">
+                    <p>{{answer.bot}} => {{answer.user}}</p>
+                   </div>
+                }
+            }
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="enter your query" [(ngModel)]="chatData" #query>
+            <button (click)="send()">send</button>
+        </div>
+    </div>
+
+</div> -->
+
+<div class="chatbot-container">
+    <div class="show-data">
+        <div class="data-body" id="chat">
+            @if(isTyping){
+                @for(user of newChatBotQuery;track user){
+                    @if(user.role=="chat-me"){
+                        <p>{{user.botMessage}} => {{user.name}}</p>
+                    }
+                }
+            }
+        </div>
+        <div class="data-btn">
+            <button class="btn" (click)="showAllData()">show data</button>
+        </div>
+    </div>
+    @if(isOpenChat){
+    <div class="chatbox-container">
+        <div class="chatbox-header">
+            <div class="chatbox-title">chatbot</div>
+            <div class="chatbox-close"></div>
+        </div>
+        <div class="chatbox-body chat-body">
+            @for(query of newChatBotQuery;track query){
+    
+            @if(query.role=="chat-bot")
+            {
+            <div class="chat-bot">
+                <p><img src="../../assets/bot.png" class="bot-icon">{{query.name}}</p>
+            </div>
+            <div class="chat-options" style="border: none !important;">
+                @for(option of query.options;track option){
+                    @if(isDuplicate){
+                        <button class="btn-chat" style="border:none !important">{{option.name}}</button>
+                    }
+                    @else{
+                        <button class="btn-chat" style="border:none !important" (click)="addMessage($event,query.name)"[disabled]="query.active">{{option.name}}</button>
+                    }
+               
+                }
+            </div>
+             }
+        @else if (query.role=="chat-me") {
+            <div class="chat-me">
+                <div class="user">
+                    <p>{{query.name}}</p>
+                </div>
+                </div>
+            }
+
+            }
+            @empty {
+                <p>s</p>
+            }
+        </div>
+        <div class="chatbox-input">
+            <input type="text" placeholder="ask any query" class="send-input" #data>
+            <button class="send-btn" (click)="sendData(data.value)">send</button>
+        </div>
+    </div>
+    }
+ 
+    <div class="chatbox">
+        <button class="btn btn-primary" (click)="openChatBox()">chat</button>
+    </div>
+</div>
